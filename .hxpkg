@@ -1,0 +1,20 @@
+[
+	{
+		"profile": "default",
+		"pkgs": [
+			{
+				"name": "flixel",
+				"link": "https://github.com/HaxeFlixel/flixel"
+			},
+			{
+				"name": "openfl"
+			},
+			{
+				"name": "lime"
+			},
+			{
+				"name": "hxcpp"
+			}
+		]
+	}
+]
