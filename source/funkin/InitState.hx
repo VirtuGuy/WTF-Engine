@@ -2,6 +2,7 @@ package funkin;
 
 import flixel.FlxG;
 import flixel.FlxState;
+import funkin.input.Controls;
 
 /**
  * The initial state of the game. This is what sets up the game.
@@ -16,6 +17,8 @@ class InitState extends FlxState
         FlxG.inputs.resetOnStateSwitch = false;
         FlxG.mouse.visible = false;
         FlxG.stage.showDefaultContextMenu = false;
+
+		Controls.instance = new Controls();
 
         // Starts the game
         FlxG.switchState(() -> new funkin.play.PlayState());

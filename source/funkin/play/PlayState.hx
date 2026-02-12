@@ -29,6 +29,19 @@ class PlayState extends FlxState
 		opponentStrumline.process(false);
 		playerStrumline.process(true);
 
+		processInput();
+
 		super.update(elapsed);
+	}
+
+	function processInput()
+	{
+		// Player input
+		playerStrumline.strums.forEach(strum -> {
+			if (strum.direction.pressed)
+				strum.animation.play('press');
+			else
+				strum.animation.play('static');
+		});
 	}
 }

@@ -3,8 +3,7 @@
 		"profile": "default",
 		"pkgs": [
 			{
-				"name": "flixel",
-				"link": "https://github.com/HaxeFlixel/flixel"
+				"name": "flixel"
 			},
 			{
 				"name": "openfl"
