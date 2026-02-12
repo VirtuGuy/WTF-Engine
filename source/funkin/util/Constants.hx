@@ -7,6 +7,11 @@ class Constants
 {
     public static final IMAGE_EXT:String = 'png';
     public static final SOUND_EXT:String = #if web 'mp3' #else 'ogg' #end;
+
+    public static final MS_PER_SEC:Int = 1000;
+    public static final BEATS_PER_MIN:Int = 60;
+    public static final STEPS_PER_BEAT:Int = 4;
+    public static final STEPS_PER_SECTION:Int = 16;
     
     public static final NOTE_COUNT:Int = 4;
 

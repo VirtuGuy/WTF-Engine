@@ -18,6 +18,7 @@ class InitState extends FlxState
         FlxG.mouse.visible = false;
         FlxG.stage.showDefaultContextMenu = false;
 
+        Conductor.instance = new Conductor();
 		Controls.instance = new Controls();
 
         // Starts the game

@@ -25,19 +25,43 @@ class Controls extends FlxActionSet
 {
     public static var instance:Controls;
 
-    var note_left(default, null)  =  new FunkinAction(Control.NOTE_LEFT);
-    var note_down(default, null)  =  new FunkinAction(Control.NOTE_DOWN);
-    var note_up(default, null)    =  new FunkinAction(Control.NOTE_UP);
-    var note_right(default, null) =  new FunkinAction(Control.NOTE_RIGHT);
+    var note_left(default, null) = new FunkinAction(Control.NOTE_LEFT);
+    var note_down(default, null) = new FunkinAction(Control.NOTE_DOWN);
+    var note_up(default, null) = new FunkinAction(Control.NOTE_UP);
+    var note_right(default, null) = new FunkinAction(Control.NOTE_RIGHT);
 
-    public var NOTE_LEFT(get, never):Bool;    inline function get_NOTE_LEFT()    return note_left.check();
-    public var NOTE_DOWN(get, never):Bool;    inline function get_NOTE_DOWN()    return note_down.check();
-    public var NOTE_UP(get, never):Bool;      inline function get_NOTE_UP()      return note_up.check();
-    public var NOTE_RIGHT(get, never):Bool;   inline function get_NOTE_RIGHT()   return note_right.check();
-    public var NOTE_LEFT_P(get, never):Bool;  inline function get_NOTE_LEFT_P()  return note_left.checkPressed();
-    public var NOTE_DOWN_P(get, never):Bool;  inline function get_NOTE_DOWN_P()  return note_down.checkPressed();
-    public var NOTE_UP_P(get, never):Bool;    inline function get_NOTE_UP_P()    return note_up.checkPressed();
-    public var NOTE_RIGHT_P(get, never):Bool; inline function get_NOTE_RIGHT_P() return note_right.checkPressed();
+    public var NOTE_LEFT(get, never):Bool;
+    public var NOTE_DOWN(get, never):Bool;
+    public var NOTE_UP(get, never):Bool;
+    public var NOTE_RIGHT(get, never):Bool;
+    public var NOTE_LEFT_P(get, never):Bool;
+    public var NOTE_DOWN_P(get, never):Bool;
+    public var NOTE_UP_P(get, never):Bool;
+    public var NOTE_RIGHT_P(get, never):Bool;
+
+    inline function get_NOTE_LEFT():Bool
+        return note_left.check();
+
+    inline function get_NOTE_DOWN():Bool
+        return note_down.check();
+
+    inline function get_NOTE_UP():Bool
+        return note_up.check();
+
+    inline function get_NOTE_RIGHT():Bool
+        return note_right.check();
+
+    inline function get_NOTE_LEFT_P():Bool
+        return note_left.checkPressed();
+
+    inline function get_NOTE_DOWN_P():Bool
+        return note_down.checkPressed();
+
+    inline function get_NOTE_UP_P():Bool
+        return note_up.checkPressed();
+
+    inline function get_NOTE_RIGHT_P():Bool
+        return note_right.checkPressed();
 
     public function new()
     {

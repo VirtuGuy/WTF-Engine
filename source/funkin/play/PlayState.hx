@@ -1,12 +1,13 @@
 package funkin.play;
 
-import flixel.FlxState;
+import flixel.text.FlxText;
 import funkin.play.note.Strumline;
+import funkin.ui.FunkinState;
 
 /**
  * A state where the gameplay occurs. Kinda like a "play" state. Hah! I said the thing!
  */
-class PlayState extends FlxState
+class PlayState extends FunkinState
 {
 	var opponentStrumline:Strumline;
 	var playerStrumline:Strumline;
@@ -26,6 +27,8 @@ class PlayState extends FlxState
 
 	override public function update(elapsed:Float)
 	{
+		conductor.update();
+
 		opponentStrumline.process(false);
 		playerStrumline.process(true);
 
