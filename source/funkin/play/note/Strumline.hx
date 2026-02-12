@@ -11,7 +11,7 @@ class Strumline extends FlxGroup
     public var strums:FlxTypedGroup<StrumSprite>;
 
     public var offset(default, set):Float = 0.5;
-    public var spacing(default, set):Float = 5;
+    public var spacing(default, set):Float = 0;
 
     public function new()
     {

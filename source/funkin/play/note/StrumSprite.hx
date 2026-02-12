@@ -20,7 +20,7 @@ class StrumSprite extends FlxSprite
 
     public function buildSprite()
     {
-        loadGraphic(Paths.image('play/ui/notes'), true, 24, 24);
+        loadGraphic(Paths.image('play/ui/notes'), true, 26, 26);
         setGraphicSize(Std.int(width * Constants.ZOOM));
         updateHitbox();
 
