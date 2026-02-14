@@ -127,7 +127,7 @@ class Strumline extends FlxGroup
                     return;
                 }
 
-                holdNote.y -= distance;
+                holdNote.y = y;
 
                 hitHoldNote(holdNote);
             }
@@ -148,8 +148,7 @@ class Strumline extends FlxGroup
 
     public function hitNote(note:NoteSprite)
     {
-        var strum:StrumSprite = getStrum(note.direction);
-        strum.confirmTime = 1;
+        playConfirm(note.direction);
 
         if (note.holdNote != null) note.holdNote.wasHit = true;
 
@@ -164,8 +163,7 @@ class Strumline extends FlxGroup
 
     public function hitHoldNote(holdNote:HoldNoteSprite)
     {
-        var strum:StrumSprite = getStrum(holdNote.direction);
-        strum.confirmTime = 1;
+        playConfirm(holdNote.direction);
 
         holdNote.length = holdNote.time - songTime + holdNote.fullLength;
 
@@ -179,11 +177,11 @@ class Strumline extends FlxGroup
         holdNote.kill();
     }
 
+    public function playConfirm(direction:NoteDirection)
+        getStrum(direction).confirmTime = 1;
+
     public function getMayHitNotes():Array<NoteSprite>
         return notes.members.filter(note -> return note.alive && note.mayHit && !note.tooLate);
-
-    public function getHitHoldNotes():Array<HoldNoteSprite>
-        return holdNotes.members.filter(holdNote -> return holdNote.alive && holdNote.wasHit);
 
     public function getStrum(direction:NoteDirection):StrumSprite
         return strums.members[direction];
