@@ -63,17 +63,9 @@ class Strumline extends FlxGroup
         this.isPlayer = isPlayer;
 
         // Spawns the notes
-        while (data.length > 0)
+        while (data[0] != null)
         {
             var noteData:SongNoteData = data[0];
-
-            // Skip the note data if it's null
-            if (noteData == null)
-            {
-                data.shift();
-                break;
-            }
-
             var time:Float = noteData.t;
             var direction:NoteDirection = NoteDirection.fromInt(noteData.d);
             var length:Float = noteData.l;
