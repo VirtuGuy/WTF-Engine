@@ -13,6 +13,8 @@ class NoteSprite extends FlxSprite
     public var mayHit:Bool;
     public var tooLate:Bool;
 
+    public var holdNote:HoldNoteSprite;
+
     public function new()
     {
         super();
@@ -41,6 +43,8 @@ class NoteSprite extends FlxSprite
 
         mayHit = false;
         tooLate = false;
+
+        holdNote = null;
     }
 
     function set_direction(direction:NoteDirection):NoteDirection

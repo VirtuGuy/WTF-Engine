@@ -17,6 +17,9 @@ class Strumline extends FlxGroup
 
     public var strums:FlxTypedGroup<StrumSprite>;
     public var notes:FlxTypedGroup<NoteSprite>;
+    public var holdNotes:FlxTypedGroup<HoldNoteSprite>;
+
+    var songTime(get, never):Float;
 
     public function new()
     {
@@ -24,6 +27,9 @@ class Strumline extends FlxGroup
 
         strums = new FlxTypedGroup<StrumSprite>();
         add(strums);
+
+        holdNotes = new FlxTypedGroup<HoldNoteSprite>();
+        add(holdNotes);
 
         notes = new FlxTypedGroup<NoteSprite>();
         add(notes);
@@ -41,24 +47,38 @@ class Strumline extends FlxGroup
 
     public function process(isPlayer:Bool)
     {
-        var songTime:Float = Conductor.instance.time;
-
         // Spawns the notes
-        // TODO: Add hold notes
         while (data.length > 0)
         {
             var noteData:SongNoteData = data[0];
 
             var time:Float = noteData.t;
             var direction:NoteDirection = NoteDirection.fromInt(noteData.d);
-            var distance:Float = (time - songTime) * Constants.PIXELS_PER_MS * speed;
+            var length:Float = noteData.l;
 
+            var distance:Float = (time - songTime) * Constants.PIXELS_PER_MS * speed;
             if (distance > FlxG.height) break;
 
+            // Creates a note
             var note:NoteSprite = notes.recycle(NoteSprite);
 
             note.time = time;
             note.direction = direction;
+
+            // Creates a hold note
+            if (length > 0)
+            {
+                var holdNote:HoldNoteSprite = holdNotes.recycle(HoldNoteSprite);
+
+                holdNote.time = time;
+                holdNote.direction = direction;
+                holdNote.speed = speed;
+
+                holdNote.fullLength = length;
+                holdNote.length = length;
+
+                note.holdNote = holdNote;
+            }
 
             data.shift();
         }
@@ -66,7 +86,7 @@ class Strumline extends FlxGroup
         // Note processing
         notes.forEachAlive(note -> {
             var strum:StrumSprite = getStrum(note.direction);
-            var distance:Float = (note.time - songTime) * Constants.PIXELS_PER_MS * speed;
+            var distance:Float = getDistance(note.time);
 
             // Positions the note
             note.x = strum.x;
@@ -85,13 +105,32 @@ class Strumline extends FlxGroup
             if (songTime >= hitEnd) note.tooLate = true;
             if (songTime >= hitStart) note.mayHit = true;
         });
+
+        // Hold note processing
+        holdNotes.forEachAlive(holdNote -> {
+            var strum:StrumSprite = getStrum(holdNote.direction);
+            var distance:Float = getDistance(holdNote.time);
+
+            var y:Float = strum.y + strum.height / 2;
+
+            // Positions the hold note
+            holdNote.x = strum.x + (strum.width - holdNote.width) / 2;
+            holdNote.y = y + distance;
+
+            if (holdNote.wasHit) holdNote.y -= distance;
+
+            // Drops the hold note if it goes offscreen
+            if (distance <= -y - holdNote.height && !holdNote.wasHit) dropHoldNote(holdNote);
+        });
     }
 
     public function hitNote(note:NoteSprite)
     {
         var strum:StrumSprite = getStrum(note.direction);
-
         strum.confirmTime = 1;
+
+        if (note.holdNote != null) note.holdNote.wasHit = true;
+
         note.kill();
     }
 
@@ -101,11 +140,36 @@ class Strumline extends FlxGroup
         note.kill();
     }
 
+    public function hitHoldNote(holdNote:HoldNoteSprite)
+    {
+        var strum:StrumSprite = getStrum(holdNote.direction);
+        strum.confirmTime = 1;
+
+        holdNote.length = Math.min(0, holdNote.time - songTime) + holdNote.fullLength;
+
+        // Kill the hold note if it's short enough
+        if (holdNote.length <= 10) holdNote.kill();
+    }
+
+    public function dropHoldNote(holdNote:HoldNoteSprite)
+    {
+        // TODO: Hold note drop stuff
+        holdNote.kill();
+    }
+
     public function getMayHitNotes():Array<NoteSprite>
         return notes.members.filter(note -> return note.alive && note.mayHit && !note.tooLate);
 
+    public function getHitHoldNotes():Array<HoldNoteSprite>
+        return holdNotes.members.filter(holdNote -> return holdNote.alive && holdNote.wasHit);
+
     public function getStrum(direction:NoteDirection):StrumSprite
         return strums.members[direction];
+
+    function getDistance(time:Float):Float
+    {
+        return (time - songTime) * Constants.PIXELS_PER_MS * speed;
+    }
 
     function positionStrums()
     {
@@ -136,4 +200,7 @@ class Strumline extends FlxGroup
 
         return this.spacing;
     }
+
+    inline function get_songTime():Float
+        return Conductor.instance.time;
 }

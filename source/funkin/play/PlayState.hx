@@ -58,7 +58,7 @@ class PlayState extends FunkinState
 		playerStrumline.data = [];
 
 		for (i in 0...100)
-			playerStrumline.data.push({ t: i * 200, d: FlxG.random.int(0, Constants.NOTE_COUNT) });
+			playerStrumline.data.push({ t: i * 1100, d: FlxG.random.int(0, Constants.NOTE_COUNT), l: 1000 });
 
 		opponentStrumline.data = playerStrumline.data.copy();
 		opponentStrumline.speed = playerStrumline.speed;
@@ -69,10 +69,9 @@ class PlayState extends FunkinState
 	function processInput()
 	{
 		// Player input
-		var hitNotes:Array<NoteSprite> = playerStrumline.getMayHitNotes();
 		var directionNotes:Array<Array<NoteSprite>> = [[], [], [], []];
 
-		for (note in hitNotes) directionNotes[note.direction].push(note);
+		for (note in playerStrumline.getMayHitNotes()) directionNotes[note.direction].push(note);
 
 		for (i in 0...directionNotes.length)
 		{
@@ -82,6 +81,16 @@ class PlayState extends FunkinState
 			if (!direction.justPressed || note == null) continue;
 
 			playerStrumline.hitNote(note);
+		}
+
+		for (holdNote in playerStrumline.getHitHoldNotes())
+		{
+			if (!holdNote.direction.pressed)
+			{
+				playerStrumline.dropHoldNote(holdNote);
+				continue;
+			}
+			playerStrumline.hitHoldNote(holdNote);
 		}
 		
 		playerStrumline.strums.forEach(strum -> {
@@ -99,6 +108,9 @@ class PlayState extends FunkinState
 		// Opponent input
 		for (note in opponentStrumline.getMayHitNotes())
 			opponentStrumline.hitNote(note);
+
+		for (holdNote in opponentStrumline.getHitHoldNotes())
+			opponentStrumline.hitHoldNote(holdNote);
 
 		opponentStrumline.strums.forEach(strum -> {
 			if (strum.confirmTime > 0)

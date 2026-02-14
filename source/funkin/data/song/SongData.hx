@@ -6,4 +6,5 @@ package funkin.data.song;
 typedef SongNoteData = {
     var t:Float;
     var d:Int;
+    var l:Float;
 }
