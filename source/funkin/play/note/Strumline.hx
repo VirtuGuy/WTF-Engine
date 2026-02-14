@@ -10,7 +10,7 @@ import funkin.data.song.SongData.SongNoteData;
 class Strumline extends FlxGroup
 {
     public var data:Array<SongNoteData> = [];
-    public var speed:Float;
+    public var speed(default, set):Float;
 
     public var offset(default, set):Float = 0.5;
     public var spacing(default, set):Float = 0;
@@ -109,8 +109,8 @@ class Strumline extends FlxGroup
         // Hold note processing
         holdNotes.forEachAlive(holdNote -> {
             var strum:StrumSprite = getStrum(holdNote.direction);
+            
             var distance:Float = getDistance(holdNote.time);
-
             var y:Float = strum.y + strum.height / 2;
 
             // Positions the hold note
@@ -179,6 +179,18 @@ class Strumline extends FlxGroup
             strum.x = FlxG.width * offset + off * (strum.width + spacing);
             strum.x += spacing / 2;
         });
+    }
+
+    function set_speed(speed:Float):Float
+    {
+        speed = Math.max(0, speed);
+
+        if (this.speed == speed) return this.speed;
+        this.speed = speed;
+
+        holdNotes.forEachAlive(holdNote -> holdNote.speed = this.speed);
+
+        return this.speed;
     }
 
     function set_offset(offset:Float):Float

@@ -39,6 +39,8 @@ class PlayState extends FunkinState
 			conductor.update();
 		}
 
+		if (conductor.time > 2000) playerStrumline.speed = 1;
+
 		opponentStrumline.process(false);
 		playerStrumline.process(true);
 
