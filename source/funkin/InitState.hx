@@ -2,6 +2,7 @@ package funkin;
 
 import flixel.FlxG;
 import flixel.FlxState;
+import funkin.data.character.CharacterRegistry;
 import funkin.data.song.SongRegistry;
 import funkin.input.Controls;
 import funkin.play.PlayState;
@@ -23,6 +24,7 @@ class InitState extends FlxState
         Conductor.instance = new Conductor();
         Controls.instance = new Controls();
 
+        CharacterRegistry.instance = new CharacterRegistry();
         SongRegistry.instance = new SongRegistry();
 
         // Starts the game

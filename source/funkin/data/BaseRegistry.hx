@@ -10,10 +10,12 @@ class BaseRegistry<T>
     public var entries:StringMap<T> = new StringMap<T>();
 
     public var id:String;
+    public var path:String;
 
-    public function new(id:String)
+    public function new(id:String, ?path:String)
     {
         this.id = id;
+        this.path = path ?? this.id;
 
         load();
     }

@@ -1,6 +1,8 @@
 package funkin.play;
 
+import flixel.FlxCamera;
 import flixel.FlxG;
+import funkin.data.character.CharacterRegistry;
 import funkin.play.note.NoteDirection;
 import funkin.play.note.NoteSprite;
 import funkin.play.note.Strumline;
@@ -16,8 +18,12 @@ class PlayState extends FunkinState
 
 	var loadedSong:Bool = false;
 
+	var camHUD:FlxCamera;
+
 	var opponentStrumline:Strumline;
 	var playerStrumline:Strumline;
+
+	var bf:Character;
 
 	override public function create()
 	{
@@ -32,17 +38,26 @@ class PlayState extends FunkinState
 			throw 'Cannot load the song if it\'s null!';
 		}
 
+		camHUD = new FlxCamera();
+		camHUD.bgColor = 0x0;
+		FlxG.cameras.add(camHUD, false);
+
+		// TODO: Remove this
+		// This is only here until there's a proper stage
+		FlxG.camera.bgColor = 0xFF252525;
+
 		opponentStrumline = new Strumline();
 		opponentStrumline.offset = 0.25;
+		opponentStrumline.camera = camHUD;
 		add(opponentStrumline);
 
 		playerStrumline = new Strumline();
 		playerStrumline.offset = 0.75;
+		playerStrumline.camera = camHUD;
 		add(playerStrumline);
 
+		loadCharacters();
 		loadSong();
-
-		FlxG.camera.bgColor = 0xFF252525;
 
 		super.create();
 	}
@@ -60,9 +75,21 @@ class PlayState extends FunkinState
 
 		processInput();
 
+		// TODO: Remove this
+		// This is only here for debugging purposes
 		if (FlxG.keys.justPressed.R) FlxG.resetState();
 
 		super.update(elapsed);
+	}
+
+	function loadCharacters()
+	{
+		bf = CharacterRegistry.instance.fetchCharacter(song.player);
+		add(bf);
+
+		// Temporary bf position
+		// TODO: Use a more proper bf position
+		bf.setPosition(FlxG.width - bf.width - 100, FlxG.height - bf.height - 100);
 	}
 
 	function loadSong()
@@ -106,5 +133,13 @@ class PlayState extends FunkinState
 		// Opponent input
 		for (note in opponentStrumline.getMayHitNotes())
 			opponentStrumline.hitNote(note);
+	}
+
+	override public function destroy()
+	{
+		super.destroy();
+
+		// Removes the HUD camera from the cameras list
+		FlxG.cameras.remove(camHUD);
 	}
 }

@@ -27,10 +27,10 @@ class SongRegistry extends BaseRegistry<Song>
         var chartParser:JsonParser<SongChartData> = new JsonParser<SongChartData>();
 
         // Loads the entries
-        for (songId in FileUtil.listFolders(id))
+        for (songId in FileUtil.listFolders(path))
         {
-            var metaPath:String = Paths.json('$id/$songId/meta');
-            var chartPath:String = Paths.json('$id/$songId/chart');
+            var metaPath:String = Paths.json('$path/$songId/meta');
+            var chartPath:String = Paths.json('$path/$songId/chart');
 
             // Skip the song if it doesn't have metadata
             if (!Paths.exists(metaPath)) continue;

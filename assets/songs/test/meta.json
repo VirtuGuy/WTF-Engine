@@ -1,4 +1,5 @@
 {
     "name": "Test",
-    "bpm": 100
+    "bpm": 100,
+    "player": "bf"
 }
