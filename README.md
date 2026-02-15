@@ -13,12 +13,12 @@ WTF Engine is an FNF engine built from the ground up and uses shitty art. Probab
 ### What it has:
 - Notes
 - Input system
+- Chud
 
 ### What it doesn't have:
 - Everything from FNF besides the stuff listed above
 - Human trafficking
 - Money laundering
-- Chud
 
 ## Credits
 

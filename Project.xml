@@ -29,8 +29,8 @@
 
 	<source path="source" />
 
-	<assets path="assets" exclude="*.ogg" if="web" />
-	<assets path="assets" exclude="*.mp3" unless="web" />
+	<assets path="assets" exclude="*.ogg|exclude" if="web" />
+	<assets path="assets" exclude="*.mp3|exclude" unless="web" />
 
 	<!-- _______________________________ Libraries ______________________________ -->
 
