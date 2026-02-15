@@ -17,7 +17,7 @@ class Conductor
     public var section:Int;
 
     public var crotchet(get, never):Float;
-    public var stepCrotchet(get, never):Float;
+    public var quaver(get, never):Float;
 
     public var stepHit(default, null) = new FlxTypedSignal<Int->Void>();
     public var beatHit(default, null) = new FlxTypedSignal<Int->Void>();
@@ -26,14 +26,17 @@ class Conductor
     var lastSteps:Int = 0;
     var lastTimestamp:Float = 0;
 
+    // There's no point in allocating new memory for this every frame.
+    var lastStep:Int;
+
     public function new() {}
 
     public function update()
     {
-        var lastStep:Int = step;
+        lastStep = step;
 
         // Calculates the current step
-        step = lastSteps + Math.floor((time - lastTimestamp) / stepCrotchet);
+        step = lastSteps + Math.floor((time - lastTimestamp) / quaver);
         beat = Math.floor(step / Constants.STEPS_PER_BEAT);
         section = Math.floor(step / Constants.STEPS_PER_SECTION);
 
@@ -61,8 +64,8 @@ class Conductor
     }
 
     inline function get_crotchet():Float
-        return Constants.BEATS_PER_MIN / bpm * Constants.MS_PER_SEC;
+        return Constants.SECS_PER_MIN / bpm * Constants.MS_PER_SEC;
 
-    inline function get_stepCrotchet():Float
+    inline function get_quaver():Float
         return crotchet / Constants.STEPS_PER_BEAT;
 }

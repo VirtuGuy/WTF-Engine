@@ -2,6 +2,7 @@ package;
 
 import flixel.FlxGame;
 import flixel.util.typeLimit.NextState.InitialState;
+import lime.app.Application;
 import openfl.display.FPS;
 import openfl.display.Sprite;
 
@@ -20,7 +21,7 @@ class Main extends Sprite
 		final gameWidth:Int = 0;
 		final gameHeight:Int = 0;
 		final initialState:InitialState = funkin.InitState;
-		final framerate:Int = 60;
+		final framerate:Int = Application.current.window.displayMode.refreshRate;
 		final skipSplash:Bool = true;
 		final startFullscreen:Bool = false;
 

@@ -1,6 +1,10 @@
 package funkin.play;
 
 import flixel.FlxG;
+import flixel.sound.FlxSound;
+import flixel.util.FlxTimer;
+import funkin.audio.SoundGroup;
+import funkin.data.song.SongData;
 import funkin.play.note.NoteDirection;
 import funkin.play.note.NoteSprite;
 import funkin.play.note.Strumline;
@@ -16,8 +20,20 @@ class PlayState extends FunkinState
 	var opponentStrumline:Strumline;
 	var playerStrumline:Strumline;
 
+	var songData:SongData;
+
+	var inst:FlxSound;
+	var playerVoices:SoundGroup;
+	var opponentVoices:SoundGroup;
+
 	override public function create()
 	{
+		inst = new FlxSound();
+		FlxG.sound.list.add(inst);
+
+		opponentVoices = new SoundGroup();
+		playerVoices = new SoundGroup();
+
 		opponentStrumline = new Strumline();
 		opponentStrumline.offset = 0.25;
 		add(opponentStrumline);
@@ -37,8 +53,17 @@ class PlayState extends FunkinState
 	{
 		if (loadedSong)
 		{
+			conductor.time = inst.time;
+			conductor.update();
+		} else {
 			conductor.time += elapsed * Constants.MS_PER_SEC;
 			conductor.update();
+
+			if (conductor.time >= 0) {
+				loadedSong = true;
+
+				startSong();
+			}
 		}
 
 		opponentStrumline.process(false);
@@ -49,32 +74,49 @@ class PlayState extends FunkinState
 		if (FlxG.keys.justPressed.R) FlxG.resetState();
 
 		super.update(elapsed);
+
+		// DO NOT PAUSE THE INST, IT'LL THROW OFF THE PLAYER!
+		if (Math.abs(inst.time - (playerVoices?.time ?? opponentVoices.time)) > 24) {
+			resyncVocals();
+		}
+	}
+
+	override function destroy() {
+		super.destroy();
+
+		FlxG.sound.list.remove(inst, true);
 	}
 
 	function loadSong()
 	{
-		conductor.bpm = 100;
-		conductor.time = -conductor.crotchet * 4;
+		songData = new SongData("bopeebo");
+		
+		inst.loadEmbedded(songData.instrumental);
 
-		playerStrumline.speed = 1;
-		playerStrumline.data = [];
-
-		var lastDir:Int = 0;
-
-		for (i in 0...200)
-		{
-			var direction:Int = lastDir;
-			while (direction == lastDir)
-				direction = FlxG.random.int(0, Constants.NOTE_COUNT - 1);
-			lastDir = direction;
-
-			playerStrumline.data.push({ t: i * 550, d: direction, l: 500 });
+		for (sound in songData.opponentVoices) {
+			var snd = new FlxSound().loadEmbedded(sound);
+			opponentVoices.add(snd);
 		}
 
-		opponentStrumline.data = playerStrumline.data.copy();
-		opponentStrumline.speed = playerStrumline.speed;
+		for (sound in songData.playerVoices) {
+			var snd = new FlxSound().loadEmbedded(sound);
+			playerVoices.add(snd);
+		}
 
-		loadedSong = true;
+		conductor.bpm = songData.bpm;
+		conductor.time = -conductor.crotchet * 4;
+
+		playerStrumline.speed = songData.speed;
+		playerStrumline.data = songData.data[1];
+
+		opponentStrumline.data = songData.data[0];
+		opponentStrumline.speed = songData.speed;
+	}
+
+	function startSong() {
+		inst.play();
+		opponentVoices.play();
+		playerVoices.play();
 	}
 
 	function processInput()
@@ -99,5 +141,20 @@ class PlayState extends FunkinState
 		// Opponent input
 		for (note in opponentStrumline.getMayHitNotes())
 			opponentStrumline.hitNote(note);
+	}
+	
+	function resyncVocals() {
+		playerVoices.pause();
+		opponentVoices.pause();
+
+		playerVoices.time = inst.time;
+		opponentVoices.time = inst.time;
+
+		playerVoices.resume();
+		opponentVoices.resume();
+
+		#if debug
+		trace("Resynced vocals at: " + inst.time);
+		#end
 	}
 }

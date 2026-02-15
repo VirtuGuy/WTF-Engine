@@ -48,13 +48,13 @@ class HoldNoteSprite extends FlxStrip
     public function buildSprite()
     {
         loadGraphic(Paths.image('play/ui/hold-notes'));
-        setGraphicSize(Std.int(width * Constants.ZOOM));
+        setGraphicSize(Std.int(width * Constants.NOTE_SCALE));
         updateHitbox();
 
         graphicWidth = graphic.width;
         graphicHeight = graphic.height;
 
-        alpha = 0.6;
+        //alpha = 0.6; // Dude, no, turn that into a setting, please...
     }
 
     public function redraw()

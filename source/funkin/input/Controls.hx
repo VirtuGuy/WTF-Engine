@@ -74,10 +74,11 @@ class Controls extends FlxActionSet
         add(note_right);
 
         // Sets the keys
-        setKeys(Control.NOTE_LEFT, [A, LEFT]);
-        setKeys(Control.NOTE_DOWN, [S, DOWN]);
-        setKeys(Control.NOTE_UP, [W, UP]);
-        setKeys(Control.NOTE_RIGHT, [D, RIGHT]);
+        // Arrow keys suck, dude. Teach the right handed kids to use IJKL instead.
+        setKeys(Control.NOTE_LEFT, [J, A]);
+        setKeys(Control.NOTE_DOWN, [K, S]);
+        setKeys(Control.NOTE_UP, [I, W]);
+        setKeys(Control.NOTE_RIGHT, [L, D]);
     }
 
     public function setKeys(id:Control, keys:Array<FlxKey>)

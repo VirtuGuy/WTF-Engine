@@ -7,7 +7,7 @@ import funkin.data.song.SongData.SongNoteData;
 import funkin.util.SortUtil;
 
 /**
- * An `FlxGroup` containing strums and notes.
+ * A `FlxGroup` containing strums and notes.
  */
 class Strumline extends FlxGroup
 {
@@ -79,7 +79,8 @@ class Strumline extends FlxGroup
             note.direction = direction;
 
             // Creates a hold note
-            if (length > 0)
+            // This gives some room for hold lengths because psych might go stupid on us when we parse charts from it!
+            if (length > 25)
             {
                 var holdNote:HoldNoteSprite = holdNotes.recycle(HoldNoteSprite);
 
