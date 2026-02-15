@@ -134,12 +134,4 @@ class PlayState extends FunkinState
 		for (note in opponentStrumline.getMayHitNotes())
 			opponentStrumline.hitNote(note);
 	}
-
-	override public function destroy()
-	{
-		super.destroy();
-
-		// Removes the HUD camera from the cameras list
-		FlxG.cameras.remove(camHUD);
-	}
 }
