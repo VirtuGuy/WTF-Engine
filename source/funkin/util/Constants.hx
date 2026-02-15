@@ -20,4 +20,11 @@ class Constants
     public static final ZOOM:Float = 1.35;
 
     public static final HIT_WINDOW_MS:Float = 160;
+
+    /** Crash Handler **/
+
+    public static final CRASHHANDLER_FILE_LOCATION:String = 'crash';
+    public static final CRASHHANDLER_FILE_PREFIX:String = 'WTF_';
+    public static final CRASHHANDLER_GIT_USER:String = 'VirtuGuy';
+    public static final CRASHHANDLER_GIT_REPO:String = 'TheFuckEngine';
 }
