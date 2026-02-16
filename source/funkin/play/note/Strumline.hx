@@ -161,11 +161,11 @@ class Strumline extends FlxGroup
             final pressed:Bool = strum.direction.pressed;
 
             if (strum.confirmTime > 0 && (pressed || !isPlayer))
-                strum.animation.play('confirm');
+                strum.playAnimation('confirm');
             else if (pressed && isPlayer)
-                strum.animation.play('press');
+                strum.playAnimation('press');
             else
-                strum.animation.play('static');
+                strum.playAnimation('static');
         });
     }
 
@@ -206,9 +206,6 @@ class Strumline extends FlxGroup
 
     public function getMayHitNotes():Array<NoteSprite>
         return notes.members.filter(note -> return note.alive && note.mayHit && !note.tooLate);
-
-    public function getHitHoldNotes():Array<HoldNoteSprite>
-        return holdNotes.members.filter(holdNote -> return holdNote.alive && holdNote.wasHit);
 
     public function getStrum(direction:NoteDirection):StrumSprite
         return strums.members[direction];
