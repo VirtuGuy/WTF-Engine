@@ -22,7 +22,7 @@ class Main extends Sprite
 		final gameWidth:Int = 0;
 		final gameHeight:Int = 0;
 		final initialState:InitialState = funkin.InitState;
-		final framerate:Int = 60;
+		final framerate:Int = 120;
 		final skipSplash:Bool = true;
 		final startFullscreen:Bool = false;
 
