@@ -18,11 +18,11 @@ class HoldNoteCover extends FunkinSprite
 
     override public function update(elapsed:Float)
     {
+        super.update(elapsed);
+
         // Kill the cover if its hold note is dead
         // This is because the hold note wants the cover to be in the afterlife
         if (holdNote == null || !holdNote.alive) kill();
-
-        super.update(elapsed);
     }
 
     public function buildSprite()

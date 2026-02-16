@@ -11,6 +11,19 @@ enum abstract Judgement(String) to String from String
     var GOOD = 'good';
     var BAD = 'bad';
     var SHIT = 'shit';
+
+    public var score(get, never):Int;
+
+    function get_score():Int
+    {
+        return switch (abstract)
+        {
+            case SICK: Constants.SICK_SCORE;
+            case GOOD: Constants.GOOD_SCORE;
+            case BAD: Constants.BAD_SCORE;
+            case SHIT: Constants.SHIT_SCORE;
+        }
+    }
 }
 
 /**
@@ -36,7 +49,7 @@ class RhythmUtil
     public static function judgeNote(note:NoteSprite):Judgement
     {
         final songTime:Float = Conductor.instance.time;
-        final timing:Float = note.time - songTime;
+        final timing:Float = Math.abs(note.time - songTime);
 
         var judgement:Judgement = SHIT;
 
@@ -48,5 +61,10 @@ class RhythmUtil
             judgement = BAD;
 
         return judgement;
+    }
+
+    public static inline function getDistance(time:Float, speed:Float):Float
+    {
+        return (time - Conductor.instance.time) * Constants.PIXELS_PER_MS * speed;
     }
 }

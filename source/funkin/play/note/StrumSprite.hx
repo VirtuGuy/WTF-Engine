@@ -21,9 +21,9 @@ class StrumSprite extends FunkinSprite
 
     override public function update(elapsed:Float)
     {
-        confirmTime = Math.max(0, confirmTime - elapsed * 10);
-
         super.update(elapsed);
+
+        confirmTime = Math.max(0, confirmTime - elapsed * 10);
     }
 
     public function buildSprite()
