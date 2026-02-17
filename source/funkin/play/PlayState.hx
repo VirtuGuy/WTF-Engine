@@ -154,7 +154,8 @@ class PlayState extends FunkinState
 			final pressed:Bool = direction.justPressed || Preferences.botplay;
 
 			// Miss if ghost tapping is disabled
-			if (note == null && pressed && !Preferences.ghostTapping) playerGhostMiss(direction);
+			// Don't count the miss if botplay is enabled though
+			if (note == null && pressed && !Preferences.ghostTapping && !Preferences.botplay) playerGhostMiss(direction);
 
 			// Don't hit the note if nothing's being pressed
 			// Especially don't hit the note if it's null
