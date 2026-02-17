@@ -11,7 +11,8 @@ class NoteSprite extends FunkinSprite
     public var direction(default, set):NoteDirection;
 
     public var mayHit:Bool;
-    public var tooLate:Bool;
+    public var willMiss:Bool;
+    public var wasMissed:Bool;
 
     public var holdNote:HoldNoteSprite;
 
@@ -50,7 +51,8 @@ class NoteSprite extends FunkinSprite
         direction = LEFT;
 
         mayHit = false;
-        tooLate = false;
+        willMiss = false;
+        wasMissed = false;
 
         holdNote = null;
     }

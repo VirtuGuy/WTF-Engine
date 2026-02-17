@@ -42,7 +42,7 @@ class RhythmUtil
         // Not having this line will create something known as FNF EXTREME DIFFICULTY
         if (isPlayer) hitStart -= Constants.HIT_WINDOW_MS;
 
-        if (songTime >= hitEnd) note.tooLate = true;
+        if (songTime >= hitEnd) note.willMiss = true;
         if (songTime >= hitStart) note.mayHit = true;
     }
 

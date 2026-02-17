@@ -191,7 +191,10 @@ class PlayState extends FunkinState
 
 	function playerNoteMiss(note:NoteSprite)
 	{
-		score += Constants.MISS_SCORE;
+		var missScore:Float = Constants.MISS_SCORE;
+
+		if (note.holdNote != null) missScore *= (note.holdNote.length / 500);
+		score += missScore;
 	}
 
 	function playerGhostMiss(direction:NoteDirection)
@@ -202,6 +205,6 @@ class PlayState extends FunkinState
 	function playerHoldNoteDrop(holdNote:HoldNoteSprite)
 	{
 		// Takes away score based on how long the hold note is
-		score += Constants.MISS_SCORE * (holdNote.length / 1000);
+		score += Constants.MISS_SCORE * (holdNote.length / 500);
 	}
 }

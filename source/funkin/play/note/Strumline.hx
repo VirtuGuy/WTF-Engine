@@ -114,14 +114,17 @@ class Strumline extends FlxGroup
             note.x = strum.x;
             note.y = strum.y + distance * (Preferences.downscroll ? -1 : 1);
 
-            if (distance <= -strum.y - note.height)
-            {
-                // Misses the note
-                note.kill();
-                noteMiss.dispatch(note);
-            }
+            if (distance <= -strum.y - note.height) note.kill();
 
             RhythmUtil.processHitWindow(note, isPlayer);
+
+            // Miss the note if the note misses
+            // No shit lol
+            if (note.willMiss && !note.wasMissed)
+            {
+                note.wasMissed = true;
+                noteMiss.dispatch(note);
+            }
         });
 
         // Hold note processing
@@ -222,7 +225,7 @@ class Strumline extends FlxGroup
     }
 
     public function getMayHitNotes():Array<NoteSprite>
-        return notes.members.filter(note -> return note.alive && note.mayHit && !note.tooLate);
+        return notes.members.filter(note -> return note.alive && note.mayHit && !note.willMiss);
 
     public function getStrum(direction:NoteDirection):StrumSprite
         return strums.members[direction];
