@@ -145,19 +145,19 @@ class HoldNoteSprite extends FlxStrip
     {
         direction %= Constants.NOTE_COUNT;
 
-        if (this.direction == direction) return this.direction;
+        if (this.direction == direction) return direction;
         this.direction = direction;
 
         redraw();
 
-        return this.direction;
+        return direction;
     }
 
     function set_length(length:Float):Float
     {
         length = Math.max(0, length);
 
-        if (this.length == length) return this.length;
+        if (this.length == length) return length;
 
         this.lastLength = this.length;
         this.length = length;
@@ -169,12 +169,12 @@ class HoldNoteSprite extends FlxStrip
 
     function set_speed(speed:Float):Float
     {
-        if (this.speed == speed) return this.speed;
+        if (this.speed == speed) return speed;
         this.speed = speed;
 
         redraw();
 
-        return this.speed;
+        return speed;
     }
 
     override function set_flipY(flipY:Bool):Bool
@@ -184,6 +184,6 @@ class HoldNoteSprite extends FlxStrip
 
         redraw();
 
-        return this.flipY;
+        return flipY;
     }
 }

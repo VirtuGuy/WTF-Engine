@@ -63,6 +63,6 @@ class NoteSprite extends FunkinSprite
 
         playAnimation(this.direction.name);
 
-        return this.direction;
+        return direction;
     }
 }

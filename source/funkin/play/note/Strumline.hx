@@ -244,31 +244,31 @@ class Strumline extends FlxGroup
     {
         speed = Math.max(0, speed);
 
-        if (this.speed == speed) return this.speed;
+        if (this.speed == speed) return speed;
         this.speed = speed;
 
-        holdNotes.forEachAlive(holdNote -> holdNote.speed = this.speed);
+        holdNotes.forEachAlive(holdNote -> holdNote.speed = speed);
 
-        return this.speed;
+        return speed;
     }
 
     function set_offset(offset:Float):Float
     {
-        if (this.offset == offset) return this.offset;
+        if (this.offset == offset) return offset;
         this.offset = offset;
 
         positionStrums();
 
-        return this.offset;
+        return offset;
     }
 
     function set_spacing(spacing:Float):Float
     {
-        if (this.spacing == spacing) return this.spacing;
+        if (this.spacing == spacing) return spacing;
         this.spacing = spacing;
 
         positionStrums();
 
-        return this.spacing;
+        return spacing;
     }
 }

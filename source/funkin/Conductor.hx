@@ -54,13 +54,13 @@ class Conductor
 
     function set_bpm(bpm:Float):Float
     {
-        if (this.bpm == bpm) return this.bpm;
+        if (this.bpm == bpm) return bpm;
         this.bpm = bpm;
 
         changeSteps = step;
         changeTimestamp = time;
 
-        return this.bpm;
+        return bpm;
     }
 
     inline function get_crotchet():Float
