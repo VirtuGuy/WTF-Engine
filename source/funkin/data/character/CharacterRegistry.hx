@@ -38,9 +38,9 @@ class CharacterRegistry extends BaseRegistry<CharacterData>
         }
     }
 
-    public function fetchCharacter(id:String):Character
+    public function fetchCharacter(id:String, isPlayer:Bool = false):Character
     {
         // Wow no way!
-        return new Character(id, fetch(id));
+        return new Character(id, fetch(id), isPlayer);
     }
 }

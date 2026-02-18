@@ -3,6 +3,7 @@ package funkin.play;
 import flixel.FlxCamera;
 import flixel.FlxG;
 import flixel.text.FlxText;
+import funkin.data.character.CharacterRegistry;
 import funkin.play.note.HoldNoteSprite;
 import funkin.play.note.NoteDirection;
 import funkin.play.note.NoteSprite;
@@ -32,6 +33,9 @@ class PlayState extends FunkinState
 	var scoreText:FlxText;
 	var popups:Popups;
 
+	var dad:Character;
+	var bf:Character;
+
 	override public function create()
 	{
 		instance = this;
@@ -56,6 +60,8 @@ class PlayState extends FunkinState
 		opponentStrumline = new Strumline();
 		opponentStrumline.offset = 0.25;
 		opponentStrumline.camera = camHUD;
+		opponentStrumline.noteHit.add(opponentNoteHit);
+		opponentStrumline.holdNoteHit.add(opponentHoldNoteHit);
 		add(opponentStrumline);
 
 		playerStrumline = new Strumline();
@@ -115,11 +121,21 @@ class PlayState extends FunkinState
 
 		// Only bop the HUD camera every four beats
 		if (beat % 4 == 0) camHUD.zoom = 1.02;
+
+		// Character bopping
+		dad.dance();
+		bf.dance();
 	}
 
 	function loadCharacters()
 	{
-		// TODO: Add characters
+		dad = CharacterRegistry.instance.fetchCharacter(song.player);
+		dad.setPosition(130, 350);
+		add(dad);
+
+		bf = CharacterRegistry.instance.fetchCharacter(song.player, true);
+		bf.setPosition(850, 350);
+		add(bf);
 	}
 
 	function loadSong()
@@ -190,6 +206,9 @@ class PlayState extends FunkinState
 		
 		// Only play the note splash if the player got a Sick!
 		if (judgement == SICK) playerStrumline.playSplash(note.direction);
+
+		// Force Boyfriend to sing
+		bf.sing(note.direction);
 	}
 
 	function playerHoldNoteHit(holdNote:HoldNoteSprite)
@@ -199,6 +218,9 @@ class PlayState extends FunkinState
 		final diff:Float = (holdNote.lastLength - holdNote.length) / 1000;
 
 		score += Constants.HOLD_SCORE_PER_SEC * diff;
+
+		// Resets Boyfriend's sing timer
+		bf.resetSingTimer();
 	}
 
 	function playerNoteMiss(note:NoteSprite)
@@ -218,5 +240,15 @@ class PlayState extends FunkinState
 	{
 		// Takes away score based on how long the hold note is
 		score += Constants.MISS_SCORE * (holdNote.length / 500);
+	}
+
+	function opponentNoteHit(note:NoteSprite)
+	{
+		dad.sing(note.direction);
+	}
+
+	function opponentHoldNoteHit(holdNote:HoldNoteSprite)
+	{
+		dad.resetSingTimer();
 	}
 }
