@@ -42,7 +42,7 @@ class Character extends FunkinSprite
     {
         super.update(elapsed);
 
-        singTimer = Math.min(1, singTimer + elapsed * (Conductor.instance.crotchet / 100 / meta.singDuration));
+        singTimer = Math.min(1, singTimer + elapsed * (Conductor.instance.quaver / 10 / meta.singDuration));
     }
 
     public function dance(force:Bool = false)
