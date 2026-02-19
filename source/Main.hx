@@ -32,6 +32,7 @@ class Main extends Sprite
 		// Only if it's enabled though
 		#if HAS_FPS_COUNTER
 		fpsCounter = new FPS(10, 10, 0xFFFFFF);
+		fpsCounter.visible = false;
 		addChild(fpsCounter);
 		#end
 	}
