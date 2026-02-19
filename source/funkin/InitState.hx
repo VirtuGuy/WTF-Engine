@@ -64,7 +64,10 @@ class InitState extends FlxState
     function startGame()
     {
         FlxG.mouse.visible = false;
+
+        #if HAS_FPS_COUNTER
         Main.fpsCounter.visible = true;
+        #end
 
         // Switches the state to PlayState
         // TODO: Change this to a title screen once there is one
