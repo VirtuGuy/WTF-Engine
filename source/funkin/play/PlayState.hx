@@ -38,8 +38,8 @@ class PlayState extends FunkinState
 	var scoreText:FlxText;
 	var popups:Popups;
 
-	var dad:Character;
-	var bf:Character;
+	var opponent:Character;
+	var player:Character;
 
 	override public function create()
 	{
@@ -135,20 +135,20 @@ class PlayState extends FunkinState
 		if (beat % 4 == 0) camHUD.zoom = 1.02;
 
 		// Character bopping
-		dad?.dance();
-		bf?.dance();
+		opponent?.dance();
+		player?.dance();
 	}
 
 	function loadCharacters()
 	{
-		dad = CharacterRegistry.instance.fetchCharacter(song.opponent);
-		bf = CharacterRegistry.instance.fetchCharacter(song.player, true);
+		opponent = CharacterRegistry.instance.fetchCharacter(song.opponent);
+		player = CharacterRegistry.instance.fetchCharacter(song.player, true);
 		
-		dad?.setPosition(130, 350);
-		bf?.setPosition(850, 350);
+		opponent?.setPosition(130, 350);
+		player?.setPosition(850, 350);
 
-		if (dad != null) add(dad);
-		if (bf != null) add(bf);
+		if (opponent != null) add(opponent);
+		if (player != null) add(player);
 	}
 
 	function loadSong()
@@ -268,7 +268,7 @@ class PlayState extends FunkinState
 		if (judgement == SICK) playerStrumline.playSplash(note.direction);
 
 		score += judgement.score;
-		bf?.sing(note.direction);
+		player?.sing(note.direction);
 
 		voices.playerVolume = 1;
 	}
@@ -280,7 +280,7 @@ class PlayState extends FunkinState
 		final diff:Float = (holdNote.lastLength - holdNote.length) / 1000;
 
 		score += Constants.HOLD_SCORE_PER_SEC * diff;
-		bf?.resetSingTimer();
+		player?.resetSingTimer();
 
 		voices.playerVolume = 1;
 	}
@@ -291,7 +291,7 @@ class PlayState extends FunkinState
 		if (note.holdNote != null) missScore *= (note.holdNote.length / 500);
 
 		score += missScore;
-		bf?.miss(note.direction);
+		player?.miss(note.direction);
 
 		voices.playerVolume = 0;
 	}
@@ -299,7 +299,7 @@ class PlayState extends FunkinState
 	function playerGhostMiss(direction:NoteDirection)
 	{
 		score += Constants.GHOST_TAP_SCORE;
-		bf?.miss(direction);
+		player?.miss(direction);
 
 		voices.playerVolume = 0;
 	}
@@ -308,19 +308,19 @@ class PlayState extends FunkinState
 	{
 		// Takes away score based on how long the hold note is
 		score += Constants.MISS_SCORE * (holdNote.length / 500);
-		bf?.miss(holdNote.direction);
+		player?.miss(holdNote.direction);
 
 		voices.playerVolume = 0;
 	}
 
 	function opponentNoteHit(note:NoteSprite)
 	{
-		dad?.sing(note.direction);
+		opponent?.sing(note.direction);
 	}
 
 	function opponentHoldNoteHit(holdNote:HoldNoteSprite)
 	{
-		dad?.resetSingTimer();
+		opponent?.resetSingTimer();
 	}
 
 	override public function destroy()

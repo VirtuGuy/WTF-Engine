@@ -21,10 +21,6 @@ Windows:
     - MSVC v143 VS 2022 C++ x64/x86 build tools.
     - Windows 10/11 SDK.
 
-HTML5:
-
-- You can compile the engine from here.
-
 ## Compiling
 
 - Run `lime test <platform>` to compile the engine.

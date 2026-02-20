@@ -10,12 +10,12 @@ class Conductor
 {
     public static var instance:Conductor;
 
-    public var time:Float = 0;
+    public var time:Float;
     public var bpm(default, set):Float;
 
-    public var step:Int = 0;
-    public var beat:Int = 0;
-    public var section:Int = 0;
+    public var step:Int;
+    public var beat:Int;
+    public var section:Int;
 
     public var crotchet(get, never):Float;
     public var quaver(get, never):Float;

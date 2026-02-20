@@ -18,11 +18,7 @@ class Main extends Sprite
 	{
 		super();
 
-		// Creates the FPS counter
-		#if HAS_FPS_COUNTER
-		fpsCounter = new FPS(10, 10, 0xFFFFFF);
-		fpsCounter.visible = false;
-		#end
+		
 
 		// Starts the game
 		final gameWidth:Int = 0;
@@ -36,7 +32,9 @@ class Main extends Sprite
 
 		// Adds the FPS counter
 		// Only if it's enabled though
+		// Creates the FPS counter
 		#if HAS_FPS_COUNTER
+		fpsCounter = new FPS(10, 10, 0xFFFFFF);
 		addChild(fpsCounter);
 		#end
 	}
