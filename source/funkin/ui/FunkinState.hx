@@ -1,5 +1,6 @@
 package funkin.ui;
 
+import flixel.FlxBasic;
 import flixel.FlxState;
 import funkin.input.Controls;
 
@@ -29,6 +30,14 @@ class FunkinState extends FlxState
         conductor.stepHit.remove(stepHit);
         conductor.beatHit.remove(beatHit);
         conductor.sectionHit.remove(sectionHit);
+    }
+
+    override public function add(basic:FlxBasic):FlxBasic
+    {
+        // Return null if the basic is null
+        if (basic == null) return null;
+
+        return super.add(basic);
     }
     
     function stepHit(step:Int) {}

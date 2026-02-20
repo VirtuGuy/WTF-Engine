@@ -48,4 +48,10 @@ class Song
 
     inline function get_player():String
         return meta.player;
+
+    public static inline function getInstPath(id:String):String
+        return Paths.sound('play/songs/$id/inst');
+
+    public static inline function getVoicesPath(id:String, character:String):String
+        return Paths.sound('play/songs/$id/voices-$character');
 }

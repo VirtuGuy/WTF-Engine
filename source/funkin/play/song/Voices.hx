@@ -19,10 +19,10 @@ class Voices
     public function new(id:String)
     {
         opponent = new FlxSound();
-        opponent.loadEmbedded(Paths.sound('songs/$id/voices-opponent'));
+        opponent.loadEmbedded(Song.getVoicesPath(id, 'opponent'));
         
         player = new FlxSound();
-        player.loadEmbedded(Paths.sound('songs/$id/voices-player'));
+        player.loadEmbedded(Song.getVoicesPath(id, 'player'));
 
         FlxG.sound.list.add(opponent);
         FlxG.sound.list.add(player);

@@ -14,7 +14,7 @@ class SongRegistry extends BaseRegistry<Song>
 
     public function new()
     {
-        super('songs');
+        super('songs', 'play/songs');
     }
 
     override public function load()

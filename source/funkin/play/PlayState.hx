@@ -147,8 +147,8 @@ class PlayState extends FunkinState
 		opponent?.setPosition(130, 350);
 		player?.setPosition(850, 350);
 
-		if (opponent != null) add(opponent);
-		if (player != null) add(player);
+		add(opponent);
+		add(player);
 	}
 
 	function loadSong()
@@ -168,7 +168,7 @@ class PlayState extends FunkinState
 		}
 
 		// Loads the actual song
-		FlxG.sound.playMusic(Paths.sound('songs/${song.id}/inst'), 1, false);
+		FlxG.sound.playMusic(Song.getInstPath(song.id), 1, false);
 		FlxG.sound.music.onComplete = endSong;
 		FlxG.sound.music.stop();
 
@@ -215,7 +215,7 @@ class PlayState extends FunkinState
 
 	function checkSongResync()
 	{
-		if (!songStarted || songEnded) return;
+		if (!FlxG.sound.music?.playing) return;
 
 		// Instrumental resync
 		if (Math.abs(conductor.time - FlxG.sound.music.time) > Constants.RESYNC_THRESHOLD)
@@ -223,6 +223,8 @@ class PlayState extends FunkinState
 			FlxG.sound.music.pause();
 			FlxG.sound.music.time = conductor.time;
 			FlxG.sound.music.play();
+
+			trace('Resynced instrumental.');
 		}
 
 		// Vocals resync
@@ -306,6 +308,9 @@ class PlayState extends FunkinState
 
 	function playerHoldNoteDrop(holdNote:HoldNoteSprite)
 	{
+		// No penalty if the note is too short
+		if (holdNote.length < 30) return;
+
 		// Takes away score based on how long the hold note is
 		score += Constants.MISS_SCORE * (holdNote.length / 500);
 		player?.miss(holdNote.direction);
